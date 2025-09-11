@@ -6,7 +6,7 @@
 
 <div class="header">
     <h1 class="title">Books</h1>
-    <button class="btn-add">
+    <button class="btn-add" id="btnAdd">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path fill="currentColor"
                 d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z" />
@@ -30,7 +30,10 @@
                 <h4>PublicationYear</h4>
             </td>
             <td>
-                <h4>Autor</h4>
+                <h4>Autor First Name</h4>
+            </td>
+            <td>
+                <h4>Autor Id</h4>
             </td>
             <td>
                 <h4>CreatedAt</h4>
@@ -55,6 +58,7 @@
                 <td>@book.Description</td>
                 <td>@book.PublicationYear</td>
                 <td>@book.Autor.FirstName</td>
+                <td>@book.Autor.Id</td>
                 <td>@book.CreatedAt</td>
                 <td>@book.UpdatedAt</td>
                 <td>
@@ -78,8 +82,29 @@
     </tbody>
 </table>
 
-<div class="modal">
-    <div class="modal-body"> 
-        <h2>Hello modal</h2>
+<div class="modal" id="modal">
+    <div class="modal-body">
+        <div class="modal-header">
+            <h2>Add Book</h2>
+            <div class="btn-close-modal" id="btnCloseModal">
+                <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24">
+                    <path fill="currentColor"
+                        d="M6.4 19L5 17.6l5.6-5.6L5 6.4L6.4 5l5.6 5.6L17.6 5L19 6.4L13.4 12l5.6 5.6l-1.4 1.4l-5.6-5.6z" />
+                </svg>
+            </div>
+        </div>
+
+        <form action="">
+            <label>Title</label>
+            <input type="text" name="Title" class="form-input" required>
+            <label>Description</label>
+            <input type="text" name="Description" class="form-input" > 
+            <label>Publication Year</label>
+            <input type="text" name="AutorId" class="form-input" >
+            <label>Autor Id</label>
+            <input type="text" name="AutorId" class="form-input" required>
+        </form>
     </div>
 </div>
+
+<script src="~/js/modal.js" defer></script>
