@@ -76,6 +76,7 @@
                                 d="M5 19h1.425L16.2 9.225L14.775 7.8L5 17.575zm-1 2q-.425 0-.712-.288T3 20v-2.425q0-.4.15-.763t.425-.637L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.437.65T21 6.4q0 .4-.138.763t-.437.662l-12.6 12.6q-.275.275-.638.425t-.762.15zM19 6.4L17.6 5zm-3.525 2.125l-.7-.725L16.2 9.225z" />
                         </svg>
                     </button>
+                    @* <button type="submit" asp-page-handler="delete" asp-route-id="@contact.Id">delete</button> *@
                 </td>
             </tr>
         }
@@ -94,16 +95,22 @@
             </div>
         </div>
 
-        <form action="">
+        <form method="post" asp-page-handler="AddBook">
             <label>Title</label>
-            <input type="text" name="Title" class="form-input" required>
+            <input type="text" class="form-input" asp-for="Book.Title" required>
+
             <label>Description</label>
-            <input type="text" name="Description" class="form-input" > 
+            <input type="text" class="form-input" asp-for="Book.Description">
+
             <label>Publication Year</label>
-            <input type="text" name="AutorId" class="form-input" >
-            <label>Autor Id</label>
-            <input type="text" name="AutorId" class="form-input" required>
+            <input type="number" class="form-input" asp-for="Book.PublicationYear" min="0" max="9999">
+
+            <label>Author Id</label>
+            <input type="number" class="form-input" asp-for="Book.AutorId" required>
+
+            <input type="submit" value="Add" class="btn-add">
         </form>
+
     </div>
 </div>
 

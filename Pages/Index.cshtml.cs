@@ -8,25 +8,32 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using bookstore.Data;
 using bookstore.Models;
-namespace bookstore.Pages
+namespace bookstore.Pages;
+
+public class IndexModel : PageModel
 {
-    public class IndexModel : PageModel
+    private readonly DBContext _context;
+    public IList<Book> Books { get; set; } = default!;
+    [BindProperty]
+    public Book Book { get; set; } = default!;
+    public IndexModel(DBContext context)
     {
-        private readonly DBContext _context;
-        public IList<Book> Books { get; set; } = default!;
-        public IndexModel(DBContext context)
-        {
-            _context = context;
-        }
-        public async Task OnGetAsync()
-        {
-            Books = await _context.Books.Include(b => b.Autor).ToListAsync();
-        }
-        public void OnPost()
-        {
-            
-
-        }
+        _context = context;
     }
-
+    public async Task OnGetAsync()
+    {
+        Books = await _context.Books.Include(b => b.Autor).ToListAsync();
+    }
+    public async Task<IActionResult> OnPostAddBookAsync()
+    {
+        if (!ModelState.IsValid)
+        {
+            return Page();
+        }
+        _context.Books.Add(Book);
+        await _context.SaveChangesAsync();
+        return Page();
+    }
 }
+
+
