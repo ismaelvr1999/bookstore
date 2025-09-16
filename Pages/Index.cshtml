@@ -1,89 +1,115 @@
 @page
-@model IndexModel
+@model bookstore.Pages.IndexModel
 @{
     ViewData["Title"] = "Index";
 }
 
 <div class="header">
     <h1 class="title">Books</h1>
-    <button class="btn-add" id="btnAdd">
+@*     <button class="btn-add" id="btnAdd">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
             <path fill="currentColor"
                 d="M11 13H6q-.425 0-.712-.288T5 12t.288-.712T6 11h5V6q0-.425.288-.712T12 5t.713.288T13 6v5h5q.425 0 .713.288T19 12t-.288.713T18 13h-5v5q0 .425-.288.713T12 19t-.712-.288T11 18z" />
         </svg>
-    </button>
+    </button> *@
+</div>
+<div class="container-books">
+    <table>
+        <thead>
+            <tr>
+                <td>
+                    <h4>Id</h4>
+                </td>
+                <td>
+                    <h4>Title</h4>
+                </td>
+                <td>
+                    <h4>Description</h4>
+                </td>
+                <td>
+                    <h4>PublicationYear</h4>
+                </td>
+                <td>
+                    <h4>Autor First Name</h4>
+                </td>
+                <td>
+                    <h4>Autor Id</h4>
+                </td>
+                <td>
+                    <h4>CreatedAt</h4>
+                </td>
+                <td>
+                    <h4>UpdatedAt</h4>
+                </td>
+                <td>
+                    <h4>Delete</h4>
+                </td>
+@*                 <td>
+                    <h4>Update</h4>
+                </td> *@
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model.Books != null)
+            {
+                @foreach (var book in Model.Books)
+                {
+                    <tr>
+                        <td>@book.Id</td>
+                        <td>@book.Title</td>
+                        <td>@book.Description</td>
+                        <td>@book.PublicationYear</td>
+                        <td>@book.Autor.FirstName</td>
+                        <td>@book.Autor.Id</td>
+                        <td>@book.CreatedAt</td>
+                        <td>@book.UpdatedAt</td>
+                        <td>
+                            <form method="post">                            
+                            <button type="submit" class="btn-delete" asp-page-handler="delete" asp-route-id="@book.Id">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z" />
+                                </svg>
+                            </button>
+                            </form>
+                        </td>
+@*                         <td>
+                            <button class="btn-edit">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                                    <path fill="currentColor"
+                                        d="M5 19h1.425L16.2 9.225L14.775 7.8L5 17.575zm-1 2q-.425 0-.712-.288T3 20v-2.425q0-.4.15-.763t.425-.637L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.437.65T21 6.4q0 .4-.138.763t-.437.662l-12.6 12.6q-.275.275-.638.425t-.762.15zM19 6.4L17.6 5zm-3.525 2.125l-.7-.725L16.2 9.225z" />
+                                </svg>
+                            </button>
+                             <button type="submit" asp-page-handler="delete" asp-route-id="@contact.Id">delete</button> 
+                        </td> *@
+                    </tr>
+                }
+            }
+
+        </tbody>
+    </table>
+
+
+    <form method="post" class="form-crud" asp-page-handler="AddBook">
+
+        <label asp-for="Book.Title">Title</label>
+        <input type="text" asp-for="Book.Title" class="form-input" required />
+
+        <label asp-for="Book.Description">Description</label>
+        <input type="text" asp-for="Book.Description" class="form-input" />
+
+        <label asp-for="Book.PublicationYear">Publication Year</label>
+        <input type="number" asp-for="Book.PublicationYear" class="form-input" min="0" max="9999" />
+
+        <label asp-for="Book.AutorId">Author Id</label>
+        <input type="number" asp-for="Book.AutorId" class="form-input" required />
+
+        <input type="submit" class="btn-add" value="Add" />
+    </form>
+
 </div>
 
-<table>
-    <thead>
-        <tr>
-            <td>
-                <h4>Id</h4>
-            </td>
-            <td>
-                <h4>Title</h4>
-            </td>
-            <td>
-                <h4>Description</h4>
-            </td>
-            <td>
-                <h4>PublicationYear</h4>
-            </td>
-            <td>
-                <h4>Autor First Name</h4>
-            </td>
-            <td>
-                <h4>Autor Id</h4>
-            </td>
-            <td>
-                <h4>CreatedAt</h4>
-            </td>
-            <td>
-                <h4>UpdatedAt</h4>
-            </td>
-            <td>
-                <h4>Delete</h4>
-            </td>
-            <td>
-                <h4>Update</h4>
-            </td>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var book in Model.Books)
-        {
-            <tr>
-                <td>@book.Id</td>
-                <td>@book.Title</td>
-                <td>@book.Description</td>
-                <td>@book.PublicationYear</td>
-                <td>@book.Autor.FirstName</td>
-                <td>@book.Autor.Id</td>
-                <td>@book.CreatedAt</td>
-                <td>@book.UpdatedAt</td>
-                <td>
-                    <button class="btn-delete">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z" />
-                        </svg>
-                    </button>
-                </td>
-                <td>
-                    <button class="btn-edit">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                            <path fill="currentColor"
-                                d="M5 19h1.425L16.2 9.225L14.775 7.8L5 17.575zm-1 2q-.425 0-.712-.288T3 20v-2.425q0-.4.15-.763t.425-.637L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.437.65T21 6.4q0 .4-.138.763t-.437.662l-12.6 12.6q-.275.275-.638.425t-.762.15zM19 6.4L17.6 5zm-3.525 2.125l-.7-.725L16.2 9.225z" />
-                        </svg>
-                    </button>
-                    @* <button type="submit" asp-page-handler="delete" asp-route-id="@contact.Id">delete</button> *@
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-<div class="modal" id="modal">
+@* <div class="modal" id="modal">
     <div class="modal-body">
         <div class="modal-header">
             <h2>Add Book</h2>
@@ -94,24 +120,6 @@
                 </svg>
             </div>
         </div>
-
-        <form method="post" asp-page-handler="AddBook">
-            <label>Title</label>
-            <input type="text" class="form-input" asp-for="Book.Title" required>
-
-            <label>Description</label>
-            <input type="text" class="form-input" asp-for="Book.Description">
-
-            <label>Publication Year</label>
-            <input type="number" class="form-input" asp-for="Book.PublicationYear" min="0" max="9999">
-
-            <label>Author Id</label>
-            <input type="number" class="form-input" asp-for="Book.AutorId" required>
-
-            <input type="submit" value="Add" class="btn-add">
-        </form>
-
     </div>
-</div>
-
-<script src="~/js/modal.js" defer></script>
+</div> 
+<script src="~/js/modal.js" defer></script> *@

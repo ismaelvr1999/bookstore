@@ -16,6 +16,7 @@ public class IndexModel : PageModel
     public IList<Book> Books { get; set; } = default!;
     [BindProperty]
     public Book Book { get; set; } = default!;
+
     public IndexModel(DBContext context)
     {
         _context = context;
@@ -28,11 +29,34 @@ public class IndexModel : PageModel
     {
         if (!ModelState.IsValid)
         {
+
+            foreach (var entry in ModelState)
+            {
+                foreach (var error in entry.Value.Errors)
+                {
+                    Console.WriteLine($"Field: {entry.Key}, Error: {error.ErrorMessage}");
+                }
+            }
             return Page();
+
         }
         _context.Books.Add(Book);
         await _context.SaveChangesAsync();
-        return Page();
+
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostDeleteAsync(int id)
+    {
+        var book = await _context.Books.FindAsync(id);
+
+        if (book != null)
+        {
+            _context.Books.Remove(book);
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToPage();
     }
 }
 
