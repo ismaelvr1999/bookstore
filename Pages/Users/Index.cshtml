@@ -1,13 +1,13 @@
 @page
-@model bookstore.Pages.IndexModel
+@model bookstore.Pages.Users.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Users";
 }
 
 <div class="header">
-    <h1 class="title">Books</h1>
+    <h1 class="title">Users</h1>
 </div>
-<div class="container-books">
+<div class="container-users">
     <table>
         <thead>
             <tr>
@@ -15,19 +15,13 @@
                     <h4>Id</h4>
                 </td>
                 <td>
-                    <h4>Title</h4>
+                    <h4>FirstName</h4>
                 </td>
                 <td>
-                    <h4>Description</h4>
+                    <h4>LastName</h4>
                 </td>
                 <td>
-                    <h4>PublicationYear</h4>
-                </td>
-                <td>
-                    <h4>Autor First Name</h4>
-                </td>
-                <td>
-                    <h4>Autor Id</h4>
+                    <h4>Email</h4>
                 </td>
                 <td>
                     <h4>CreatedAt</h4>
@@ -44,22 +38,20 @@
             </tr>
         </thead>
         <tbody>
-            @if (Model.Books != null)
+            @if (Model.Users != null)
             {
-                @foreach (var book in Model.Books)
+                @foreach (var user in Model.Users)
                 {
                     <tr>
-                        <td>@book.Id</td>
-                        <td>@book.Title</td>
-                        <td>@book.Description</td>
-                        <td>@book.PublicationYear</td>
-                        <td>@(book.Autor != null ? book.Autor.FirstName: "Unknow" )</td>
-                        <td>@(book.Autor != null ? book.Autor.Id: "Unknow" )</td>
-                        <td>@book.CreatedAt</td>
-                        <td>@book.UpdatedAt</td>
+                        <td>@user.Id</td>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>@user.Email</td>
+                        <td>@user.CreateAt</td>
+                        <td>@user.UpdateAt</td>
                         <td>
                             <form method="post">
-                                <button type="submit" class="btn-delete" asp-page-handler="delete" asp-route-id="@book.Id">
+                                <button type="submit" class="btn-delete" asp-page-handler="DeleteUser" asp-route-id="@user.Id">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                         <path fill="currentColor"
                                             d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z" />
@@ -74,7 +66,7 @@
                                         d="M5 19h1.425L16.2 9.225L14.775 7.8L5 17.575zm-1 2q-.425 0-.712-.288T3 20v-2.425q0-.4.15-.763t.425-.637L16.2 3.575q.3-.275.663-.425t.762-.15t.775.15t.65.45L20.425 5q.3.275.437.65T21 6.4q0 .4-.138.763t-.437.662l-12.6 12.6q-.275.275-.638.425t-.762.15zM19 6.4L17.6 5zm-3.525 2.125l-.7-.725L16.2 9.225z" />
                                 </svg>
                             </button>
-                        </td> *@
+                        </td>  *@
                     </tr>
                 }
             }
@@ -84,39 +76,33 @@
 
     <div class="forms">
 
-        <form method="post" class="form-crud" asp-page-handler="AddBook">
-            <h2>Add book</h2>
-            <label asp-for="Book.Title">Title</label>
-            <input type="text" asp-for="Book.Title" class="form-input" required />
+        <form method="post" class="form-crud" asp-page-handler="AddUser">
+            <h2>Add User</h2>
+            <label asp-for="NewUser.FirstName">FirstName</label>
+            <input type="text" asp-for="NewUser.FirstName" class="form-input" required />
 
-            <label asp-for="Book.Description">Description</label>
-            <input type="text" asp-for="Book.Description" class="form-input" />
+            <label asp-for="NewUser.LastName">LastName</label>
+            <input type="text" asp-for="NewUser.LastName" class="form-input" />
 
-            <label asp-for="Book.PublicationYear">Publication Year</label>
-            <input type="number" asp-for="Book.PublicationYear" class="form-input" min="0" max="9999" />
-
-            <label asp-for="Book.AutorId">Author Id</label>
-            <input type="number" asp-for="Book.AutorId" class="form-input" required />
+            <label asp-for="NewUser.Email">Email</label>
+            <input type="email" asp-for="NewUser.Email" class="form-input" />
 
             <input type="submit" class="btn-add" value="Add" />
         </form>
 
-        <form method="post" class="form-crud" asp-page-handler="Update">
-            <h2>Update Book</h2>
-            <label asp-for="Book.Id">Id</label>
-            <input type="text" asp-for="Book.Id" class="form-input" required />
+        <form method="post" class="form-crud" asp-page-handler="UpdateUser">
+            <h2>Update User</h2>
+            <label asp-for="NewUser.Id">Id</label>
+            <input type="text" asp-for="NewUser.Id" class="form-input" required />
 
-            <label asp-for="Book.Title">Title</label>
-            <input type="text" asp-for="Book.Title" class="form-input" required />
+            <label asp-for="NewUser.FirstName">FirstName</label>
+            <input type="text" asp-for="NewUser.FirstName" class="form-input" required />
 
-            <label asp-for="Book.Description">Description</label>
-            <input type="text" asp-for="Book.Description" class="form-input" />
+            <label asp-for="NewUser.LastName">LastName</label>
+            <input type="text" asp-for="NewUser.LastName" class="form-input" />
 
-            <label asp-for="Book.PublicationYear">Publication Year</label>
-            <input type="number" asp-for="Book.PublicationYear" class="form-input" min="0" max="9999" />
-
-            <label asp-for="Book.AutorId">Author Id</label>
-            <input type="number" asp-for="Book.AutorId" class="form-input" required />
+            <label asp-for="NewUser.Email">Email</label>
+            <input type="email" asp-for="NewUser.Email" class="form-input" />
 
             <input type="submit" class="btn-add" value="Update" />
         </form>

@@ -8,28 +8,28 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using bookstore.Data;
 using bookstore.Models;
-namespace bookstore.Pages;
+namespace bookstore.Pages.Users;
 
 public class IndexModel : PageModel
 {
     private readonly DBContext _context;
-    public IList<Book> Books { get; set; } = default!;
+    public IList<User>? Users { get; set; }
     [BindProperty]
-    public Book Book { get; set; } = default!;
-
+    public User? NewUser { get; set; } = default!;
     public IndexModel(DBContext context)
     {
         _context = context;
     }
+
     public async Task OnGetAsync()
     {
-        Books = await _context.Books.Include(b => b.Autor).ToListAsync();
+        Users = await _context.Users.ToListAsync();
     }
-    public async Task<IActionResult> OnPostAddBookAsync()
+
+    public async Task<IActionResult> OnPostAddUserAsync()
     {
         if (!ModelState.IsValid)
         {
-
             foreach (var entry in ModelState)
             {
                 foreach (var error in entry.Value.Errors)
@@ -38,32 +38,35 @@ public class IndexModel : PageModel
                 }
             }
             return Page();
-
         }
-        _context.Books.Add(Book);
-        await _context.SaveChangesAsync();
-
-        return RedirectToPage();
-    }
-
-    public async Task<IActionResult> OnPostDeleteAsync(int id)
-    {
-        var book = await _context.Books.FindAsync(id);
-
-        if (book != null)
+        if (User != null)
         {
-            _context.Books.Remove(book);
+            _context.Users.Add(NewUser);
             await _context.SaveChangesAsync();
         }
 
+
         return RedirectToPage();
     }
 
-    public async Task<IActionResult> OnPostUpdateAsync()
+    public async Task<IActionResult> OnPostDeleteUserAsync(int id)
+    {
+        var user = await _context.Users.FindAsync(id);
+
+        if (user == null)
+        {
+            return RedirectToPage();
+        }
+
+        _context.Users.Remove(user);
+        await _context.SaveChangesAsync();
+        return RedirectToPage();
+    }
+
+    public async Task<IActionResult> OnPostUpdateUserAsync()
     {
         if (!ModelState.IsValid)
         {
-
             foreach (var entry in ModelState)
             {
                 foreach (var error in entry.Value.Errors)
@@ -72,13 +75,11 @@ public class IndexModel : PageModel
                 }
             }
             return Page();
-
         }
-        _context.Attach(Book).State = EntityState.Modified;
+
+        _context.Attach(this.NewUser).State = EntityState.Modified; ;
         await _context.SaveChangesAsync();
 
         return RedirectToPage();
     }
 }
-
-
