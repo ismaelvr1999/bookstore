@@ -5,7 +5,8 @@ using bookstore.Models;
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 // add services
-builder.Services.AddRazorPages();
+builder.Services.AddControllersWithViews();
+//builder.Services.AddRazorPages();
 builder.Services.AddDbContext<DBContext>(options =>
     options.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString)));
 // build app
@@ -17,8 +18,26 @@ using (var scope = app.Services.CreateScope())
     SeedData.Initialize(services);
 }
 // add middlewares
-app.UseStaticFiles();
+//app.UseStaticFiles();
+//app.MapRazorPages();
+
+app.UseHttpsRedirection();
 app.UseRouting();
-app.MapRazorPages();
+app.MapStaticAssets();
+
+/* app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Foo}/{action=Index}"
+).WithStaticAssets();
+
+app.MapControllerRoute(
+    name: "Baz",
+    pattern: "{controller=Baz}/{action=Index}"
+).WithStaticAssets(); */
+
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Books}/{action=Index}"
+).WithStaticAssets();
 
 app.Run();
