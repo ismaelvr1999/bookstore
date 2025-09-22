@@ -6,11 +6,11 @@ using bookstore.Data;
 using Microsoft.EntityFrameworkCore;
 namespace bookstore.Controllers;
 
-public class BooksController : Controller
+public class AutorsController : Controller
 {
-    private readonly ILogger<BooksController> _logger;
+    private readonly ILogger<AutorsController> _logger;
     private readonly DBContext _context;
-    public BooksController(ILogger<BooksController> logger, DBContext context)
+    public AutorsController(ILogger<AutorsController> logger, DBContext context)
     {
         _logger = logger;
         _context = context;
@@ -18,12 +18,12 @@ public class BooksController : Controller
 
     public async Task<IActionResult> Index()
     {
-        IList<Book> Books = await _context.Books.Include(b => b.Autor).ToListAsync();
-        BooksViewModel viewModel = new BooksViewModel { Books = Books };
-        return View(viewModel);
+        IList<Autor> Autors = await _context.Autors.ToListAsync();
+        AutorsViewModel ViewModel = new AutorsViewModel { Autors = Autors };
+        return View(ViewModel);
     }
     [HttpPost]
-    public async Task<IActionResult> AddBook([Bind("Title,Description,PublicationYear,AutorId")] Book book)
+    public async Task<IActionResult> AddAutor([Bind("FirstName,LastName,Biography")] Autor autor)
     {
         if (!ModelState.IsValid)
         {
@@ -38,14 +38,14 @@ public class BooksController : Controller
             return RedirectToAction("Index");
 
         }
-        _context.Books.Add(book);
+        _context.Autors.Add(autor);
         await _context.SaveChangesAsync();
 
         return RedirectToAction("Index");
     }
 
     [HttpPost]
-    public async Task<IActionResult> UpdateBook([Bind("Id,Title,Description,PublicationYear,AutorId")] Book book)
+    public async Task<IActionResult> UpdateAutor([Bind("Id,FirstName,LastName,Biography")] Autor autor)
     {
         if (!ModelState.IsValid)
         {
@@ -60,19 +60,19 @@ public class BooksController : Controller
             return RedirectToAction("Index");
 
         }
-        _context.Attach(book).State = EntityState.Modified;
+        _context.Attach(autor).State = EntityState.Modified;
         await _context.SaveChangesAsync();
 
         return RedirectToAction("Index");
     }
-
-    public async Task<IActionResult> DeleteBook(int id)
+    
+    public async Task<IActionResult> DeleteAutor(int id)
     {
-        var book = await _context.Books.FindAsync(id);
+        var autor = await _context.Autors.FindAsync(id);
 
-        if (book != null)
+        if (autor != null)
         {
-            _context.Books.Remove(book);
+            _context.Autors.Remove(autor);
             await _context.SaveChangesAsync();
         }
 

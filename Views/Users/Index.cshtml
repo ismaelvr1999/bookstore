@@ -1,5 +1,4 @@
-@page
-@model bookstore.Pages.Users.IndexModel
+@model bookstore.ViewModels.UsersViewModel
 @{
     ViewData["Title"] = "Users";
 }
@@ -51,7 +50,7 @@
                         <td>@user.UpdateAt</td>
                         <td>
                             <form method="post">
-                                <button type="submit" class="btn-delete" asp-page-handler="DeleteUser" asp-route-id="@user.Id">
+                                <button type="submit" class="btn-delete" asp-action="DeleteUser" asp-route-id="@user.Id">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
                                         <path fill="currentColor"
                                             d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zM17 6H7v13h10zM9 17h2V8H9zm4 0h2V8h-2zM7 6v13z" />
@@ -76,33 +75,33 @@
 
     <div class="forms">
 
-        <form method="post" class="form-crud" asp-page-handler="AddUser">
+        <form method="post" class="form-crud" asp-action="AddUser">
             <h2>Add User</h2>
-            <label asp-for="NewUser.FirstName">FirstName</label>
-            <input type="text" asp-for="NewUser.FirstName" class="form-input" required />
+            <label asp-for="User.FirstName">FirstName</label>
+            <input type="text" asp-for="User.FirstName" class="form-input" required />
 
-            <label asp-for="NewUser.LastName">LastName</label>
-            <input type="text" asp-for="NewUser.LastName" class="form-input" />
+            <label asp-for="User.LastName">LastName</label>
+            <input type="text" asp-for="User.LastName" class="form-input" />
 
-            <label asp-for="NewUser.Email">Email</label>
-            <input type="email" asp-for="NewUser.Email" class="form-input" />
+            <label asp-for="User.Email">Email</label>
+            <input type="email" asp-for="User.Email" class="form-input" />
 
             <input type="submit" class="btn-add" value="Add" />
         </form>
 
-        <form method="post" class="form-crud" asp-page-handler="UpdateUser">
+        <form method="post" class="form-crud" asp-action="UpdateUser">
             <h2>Update User</h2>
-            <label asp-for="NewUser.Id">Id</label>
-            <input type="text" asp-for="NewUser.Id" class="form-input" required />
+            <label asp-for="User.Id">Id</label>
+            <input type="text" asp-for="User.Id" class="form-input" required />
 
-            <label asp-for="NewUser.FirstName">FirstName</label>
-            <input type="text" asp-for="NewUser.FirstName" class="form-input" required />
+            <label asp-for="User.FirstName">FirstName</label>
+            <input type="text" asp-for="User.FirstName" class="form-input" required />
 
-            <label asp-for="NewUser.LastName">LastName</label>
-            <input type="text" asp-for="NewUser.LastName" class="form-input" />
+            <label asp-for="User.LastName">LastName</label>
+            <input type="text" asp-for="User.LastName" class="form-input" />
 
-            <label asp-for="NewUser.Email">Email</label>
-            <input type="email" asp-for="NewUser.Email" class="form-input" />
+            <label asp-for="User.Email">Email</label>
+            <input type="email" asp-for="User.Email" class="form-input" />
 
             <input type="submit" class="btn-add" value="Update" />
         </form>

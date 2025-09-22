@@ -39,7 +39,7 @@ public class IndexModel : PageModel
             }
             return Page();
         }
-        if (User != null)
+        if (NewUser != null)
         {
             _context.Users.Add(NewUser);
             await _context.SaveChangesAsync();
@@ -74,10 +74,10 @@ public class IndexModel : PageModel
                     Console.WriteLine($"Field: {entry.Key}, Error: {error.ErrorMessage}");
                 }
             }
-            return Page();
+            return RedirectToPage();
         }
 
-        _context.Attach(this.NewUser).State = EntityState.Modified; ;
+        _context.Attach(NewUser).State = EntityState.Modified; ;
         await _context.SaveChangesAsync();
 
         return RedirectToPage();
